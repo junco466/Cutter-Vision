@@ -1,0 +1,6 @@
+/Pruebas_Desarrollo
+/Resources
+*.png
+/View/*
+!Interface.py
+**/__pycache__
