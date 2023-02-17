@@ -1,4 +1,5 @@
 from View.Interface import Ui_MainWindow
+from segmentacion.Threshold_demo import Calibracion
 import serial
 import threading
 import time
@@ -14,16 +15,25 @@ class Datos(QtWidgets.QMainWindow):
         #Llamo a la clase main window del main script, ademas
         #llamo el objeto de la clase Ui_MainWindow obtenida en el 
         #main script
+        
+        #>>>>-----Definicion Ventana Principal-----<<<<<
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.labelPrueba.setText("OFF")
+
         self.ui.pushButtonHome.setEnabled(True)
+        self.ui.pushButtonCalibracion.setEnabled(True)
+        self.ui.lineEditId.setEnabled(True)
+        self.ui.pushButtonStart.setEnabled(False)
+        self.ui.pushButtonStart.setStyleSheet("background-color: rgb(168, 168, 168);\n"
+        "border-radius: 15%;")
+        self.ui.comboBoxVariedad.setCurrentIndex(-1)
+        self.comboInfo = ""
 
 
         #Objetos Controladores
         self.driver = Micro(ui=self.ui) #----COMUNICACION----
         self.camara = Camara(ui=self.ui,driver=self.driver) #----COMUNICACION----
-
+        self.calibracion = Calibracion()
 
         #>>>>-----INICIO DEL HILO DE LA CAMARA-----<<<<
         self.camara.cap = cv2.VideoCapture(1,cv2.CAP_DSHOW)
@@ -36,131 +46,58 @@ class Datos(QtWidgets.QMainWindow):
 
         #SIGNALS TO SLOTS:
         self.ui.pushButtonStart.clicked.connect(self.startButton)
-        self.ui.pushButtonPruebas.clicked.connect(self.pruebas)
-        self.ui.pushButtonComando.clicked.connect(self.enviar)
-        self.ui.pushButtonFoto.clicked.connect(self.camara.take_photo)
+        self.ui.pushButtonInfo.clicked.connect(self.info)
         self.ui.pushButtonHome.clicked.connect(self.driver.home)
-
-        #Metodo para cerrar el hilo, y que no se quede ejecutando
-        #como proceso de segundo plano, infinitamente
-
-        # #objeto serial, para comenzar comunicacion serial con microcontrolador
-        # self.communication = serial.Serial("COM5",115200,timeout=2)
-        # time.sleep(1.0)
-
-        # self.valueVel = 0
-        # #Signals/Slots
-        # self.ui.pushButtonEnviar.clicked.connect(self.enviar)
-
-        # self.isRun = True
-        # self.hilo1.start()
-
-        #self.hiloClose.start()
+        self.ui.pushButtonResultados.clicked.connect(self.camara.fotoWindow)
+        self.ui.comboBoxVariedad.currentIndexChanged.connect(self.dataChange)
+        self.ui.pushButtonCalibracion.clicked.connect(self.modoCalibracion)
 
 
-        #****Presionar Boton Start****
+    #>>>>-----Presionar Boton Scan-----<<<<<
     def startButton(self):
 
+        self.ui.pushButtonStart.setEnabled(True)
         self.ui.pushButtonStart.setEnabled(False)
         self.ui.pushButtonStart.setStyleSheet("background-color: rgb(168, 168, 168);\n"
-"border-radius: 15%;")
+        "border-radius: 15%;")
         self.camara.threadFlagScan.set()
         # self.camara.scanning = True
 
-        # self.ui.pushButtonFoto.setEnabled(False)
-        # self.ui.pushButtonValvula.setEnabled(False)
-        # self.ui.pushButtonIluminacion.setEnabled(False)
-        # self.ui.pushButtonComando.setEnabled(False)
-        # self.ui.lineEditDireccion.setEnabled(False)
-        # self.ui.lineEditDistancia.setEnabled(False)
-    
-        # self.driver.rodillosAction()  #----COMUNICACION----
-        # self.driver.osciladorAction()  #----COMUNICACION----
+
+    def info(self):
+
+        self.ui.pushButtonStart.setEnabled(True)
+        self.ui.pushButtonStart.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.547, y1:0.983, x2:0.532105, y2:0, stop:0.0684211 rgba(0, 157, 0, 255), stop:1 rgba(185, 244, 158, 255));\n"
+        "border-radius: 15%;")
+        str1 = self.ui.lineEditId.text()
+        self.ui.labelId.setText(str1)
+        self.ui.labelVariedad.setText(self.comboInfo)
+        self.ui.comboBoxVariedad.setCurrentIndex(-1)
 
 
-    def enviar(self):
+    def dataChange(self):
         
-        print('ENVIARRR...')
-        # self.reading.clear()
-        #print(self.reading.is_set())
-        time.sleep(2)
-        #self.communication.reset_input_buffer()
-        #self.communication.reset_output_buffer()
-        distancia = self.ui.lineEditDistancia.text()
-        direccion = self.ui.lineEditDireccion.text()
-        self.driver.move(direccion,distancia)
-
+        try:
+            if self.ui.comboBoxVariedad.currentIndex() != -1:
+                self.comboInfo = self.ui.comboBoxVariedad.currentText() 
+            else:
+                pass
+        except:
+            print('mal funcionamiento comboBox')
         
-    def pruebas(self):
+    def modoCalibracion(self):
+        
+        self.calibracion.runCalibracion()
 
-        if self.modoPruebas is False:
-            self.modoPruebas = True
-            self.ui.labelPrueba.setText("ON")
-            self.ui.pushButtonFoto.setEnabled(True)
-            self.ui.pushButtonValvula.setEnabled(True)
-            self.ui.pushButtonComando.setEnabled(True)
-            self.ui.lineEditDireccion.setEnabled(True)
-            self.ui.lineEditDistancia.setEnabled(True)
-        else:
-            self.modoPruebas = False
-            self.ui.labelPrueba.setText("OFF")
-            self.ui.pushButtonFoto.setEnabled(False)
-            self.ui.pushButtonValvula.setEnabled(False)
-            self.ui.pushButtonComando.setEnabled(False)
-            self.ui.lineEditDireccion.setEnabled(False)
-            self.ui.lineEditDistancia.setEnabled(False)
-
-
+#>>>>-----Evento de cierre de programa-----<<<<
     def closeEvent(self,event):
 
         try:
             
             self.camara.stop()
-            # self.camara.threadFlagScan.clear()
             self.hiloCamara.join()
-            # time.sleep(1)
-            # print("cerre hilo camara")
-            # self.driver.communication.close()  #----COMUNICACION----
+            self.driver.communication.close()
             cv2.destroyAllWindows()
             print('*******Finalizado*******')
         except Exception as e:
             print(f"ERROR AL FINALIZAR: {e}")
-    
-    
-
-    # def closeEvent(self,event): 
-
-    #     try:
-    #         self.isRun = False
-    #         self.communication.close()
-    #         self.hilo1.join(0.1)
-    #         print('*******Finalizado*******')
-    #     except Exception as e:
-    #         print(e)
-
-
-    # def recibir(self):
-        
-    #     while self.isRun:
-            
-    #         #print(f'maricaaaa!! {self.reading.is_set()}')
-    #         if self.reading.is_set() == True:
-    #             try:
-    #                 #self.communication.reset_input_buffer()
-    #                 str = self.communication.readline().decode('utf-8').strip()
-                    
-    #                 if str:
-    #                     try:
-    #                         pos = str.index(':')
-    #                         label = str[:pos]
-    #                         value = str[pos+1:]
-    #                         if label == 'VEL':
-    #                             self.ui.labelVelocidad.setText(value)
-    #                         else:
-    #                             continue
-    #                     except:
-    #                         print('Comando invalido')
-    #             except:
-    #                 print('hubo un leve error')
-    #         else:
-    #             continue

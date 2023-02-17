@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'CapirosInterface.ui'
+# Form implementation generated from reading ui file 'capirosInterface.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -12,7 +12,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
-        MainWindow.resize(1520, 721)
+        MainWindow.resize(1525, 736)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -83,7 +83,7 @@ class Ui_MainWindow(object):
         self.label_8.setObjectName("label_8")
         self.horizontalLayout_3.addWidget(self.label_8)
         self.lineEditId = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEditId.setEnabled(False)
+        self.lineEditId.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -291,6 +291,26 @@ class Ui_MainWindow(object):
         self.formLayout.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.labelAreaQuemado)
         self.verticalLayout_5.addLayout(self.formLayout)
         self.verticalLayout_2.addWidget(self.widget_2)
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_6.setContentsMargins(-1, 0, -1, -1)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.pushButtonResultados = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButtonResultados.setEnabled(True)
+        self.pushButtonResultados.setMinimumSize(QtCore.QSize(200, 40))
+        self.pushButtonResultados.setMaximumSize(QtCore.QSize(250, 50))
+        font = QtGui.QFont()
+        font.setFamily("Consolas")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButtonResultados.setFont(font)
+        self.pushButtonResultados.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButtonResultados.setStyleSheet("background: qlineargradient(spread:pad, x1:0.521263, y1:1, x2:0.505, y2:0.102, stop:0.00526316 rgba(148, 148, 148, 255), stop:1 rgba(255, 255, 255, 255));\n"
+"/*background-color:white;*/\n"
+"border-radius: 5%;")
+        self.pushButtonResultados.setObjectName("pushButtonResultados")
+        self.horizontalLayout_6.addWidget(self.pushButtonResultados)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_6)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
         self.widget_5 = QtWidgets.QWidget(self.centralwidget)
         self.widget_5.setMinimumSize(QtCore.QSize(0, 0))
@@ -416,14 +436,41 @@ class Ui_MainWindow(object):
 "/*background-color:white;*/\n"
 "border-radius: 5%;\n"
 "/*border:2px solid black;*/")
-        self.pushButtonHome.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("./Resources/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButtonHome.setIcon(icon)
         self.pushButtonHome.setIconSize(QtCore.QSize(40, 40))
         self.pushButtonHome.setObjectName("pushButtonHome")
         self.horizontalLayout_8.addWidget(self.pushButtonHome)
         self.verticalLayout.addLayout(self.horizontalLayout_8)
+        self.frame_5 = QtWidgets.QFrame(self.widget_5)
+        self.frame_5.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_5.setObjectName("frame_5")
+        self.verticalLayout.addWidget(self.frame_5)
+        self.horizontalLayout_11 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
+        self.pushButtonCalibracion = QtWidgets.QPushButton(self.widget_5)
+        self.pushButtonCalibracion.setEnabled(False)
+        self.pushButtonCalibracion.setMinimumSize(QtCore.QSize(150, 60))
+        self.pushButtonCalibracion.setMaximumSize(QtCore.QSize(150, 16777215))
+        font = QtGui.QFont()
+        font.setFamily("Consolas")
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButtonCalibracion.setFont(font)
+        self.pushButtonCalibracion.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.pushButtonCalibracion.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.pushButtonCalibracion.setStyleSheet("background: qlineargradient(spread:pad, x1:0.521263, y1:1, x2:0.505, y2:0.102, stop:0.00526316 rgba(148, 148, 148, 255), stop:1 rgba(255, 255, 255, 255));\n"
+"/*background-color:white;*/\n"
+"border-radius: 5%;\n"
+"/*border:2px solid black;*/")
+        self.pushButtonCalibracion.setIconSize(QtCore.QSize(40, 40))
+        self.pushButtonCalibracion.setObjectName("pushButtonCalibracion")
+        self.horizontalLayout_11.addWidget(self.pushButtonCalibracion)
+        self.verticalLayout.addLayout(self.horizontalLayout_11)
         self.verticalLayout_3.addLayout(self.verticalLayout)
         self.horizontalLayout.addWidget(self.widget_5)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
@@ -450,7 +497,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addLayout(self.horizontalLayout_2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1520, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1525, 26))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -462,7 +509,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Cutting Vision"))
         self.label.setText(_translate("MainWindow", "INFORMACION DEL COSECHADOR"))
         self.label_8.setText(_translate("MainWindow", "ID COSECHADOR"))
         self.label_5.setText(_translate("MainWindow", "VARIEDAD"))
@@ -485,7 +532,10 @@ class Ui_MainWindow(object):
         self.labelAreaCrudo.setText(_translate("MainWindow", "..."))
         self.label_20.setText(_translate("MainWindow", "..."))
         self.labelAreaQuemado.setText(_translate("MainWindow", "..."))
+        self.pushButtonResultados.setText(_translate("MainWindow", "Resultados"))
         self.pushButtonStart.setText(_translate("MainWindow", "SCAN"))
+        self.pushButtonHome.setText(_translate("MainWindow", " HOME"))
+        self.pushButtonCalibracion.setText(_translate("MainWindow", "CALIBRACION"))
 
 
 if __name__ == "__main__":
